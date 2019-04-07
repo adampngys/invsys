@@ -1,0 +1,73 @@
+﻿@model LogicUniversityApp.Models.Supplier
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Supplier Details</h2>
+
+<div>
+    <h4>Supplier</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.LabelFor(model => model.supplierId, "Supplier Id")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.supplierId)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.supplierName, "Supplier Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.supplierName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.address, "Address")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.contactName, "Contact Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contactName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.phone, "Phone Number")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.phone)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.fax, "Fax")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fax)
+        </dd>
+        <dt>
+            @Html.LabelFor(model => model.email, "Email")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.supplierId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

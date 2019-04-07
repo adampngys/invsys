@@ -1,0 +1,77 @@
+﻿@model List<LogicUniversityApp.ViewModel.RequestViewModel>
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+@if (ViewBag.requestId == null)
+{
+    <h2>Detail: New Request</h2>
+}
+else
+{
+    <h2>Detail: request @ViewBag.requestId</h2>
+}
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table table-striped table-hover">
+        <tr>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(x => x[0].category)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(x => x[0].description)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(x => x[0].stdPrice)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(x => x[0].quantityNeed)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(x => x[0].unitMeasure)
+            </th>
+        </tr>
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td align="center">
+                    @Html.DisplayFor(x => x[i].category)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(x => x[i].description)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(x => x[i].stdPrice)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(x => x[i].quantityNeed)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(x => x[i].unitMeasure)
+                </td>
+            </tr>
+        }
+    </table>
+
+    if (User.IsInRole("DH") || User.IsInRole("Temp DH"))
+    {
+        if (ViewBag.ShowHistory == "True")
+        {
+            @Html.ActionLink("Back", "ApproveReject", "Request", new { ShowHistory = true }, null);
+        }
+        else
+        {
+            @Html.ActionLink("Back", "ApproveReject", "Request");
+        }
+    }
+    else
+    {
+        @Html.ActionLink("Back", "List", "Request");
+    }
+}
+
+
+

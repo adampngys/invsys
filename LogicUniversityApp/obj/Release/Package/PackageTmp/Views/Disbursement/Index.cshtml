@@ -1,0 +1,93 @@
+﻿@model IEnumerable<LogicUniversityApp.ViewModel.DisbursementViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    var depInfo = ViewBag.depInfo as LogicUniversityApp.ViewModel.DepartmentViewModel;
+}
+
+<h3>DISBURSEMENT</h3>
+
+@using (Html.BeginForm("Index", "Disbursement", FormMethod.Post))
+{
+    @Html.DropDownList("depIdList", null, "Please select", new { Class = "form-control", onchange = "SelectedIndexChanged()" })
+
+    if (depInfo != null)
+    {
+        <p>@depInfo.departmentName</p>
+        <p>@depInfo.collectionPointDescription</p>
+        <p>@depInfo.departmentRepName</p>
+        <p>@depInfo.departmentPhone</p>
+    }
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.qtyRequired)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.unitMeasure)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.qtyActual)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.qtyDamaged)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.qtyMissing)
+            </th>
+        </tr>
+
+        @if (Model != null)
+        {
+            for (int i = 0; i < Model.Count(); i++)
+            {
+                @Html.HiddenFor(modelItem => modelItem.ToList()[i].itemNo)
+                @Html.HiddenFor(modelItem => modelItem.ToList()[i].departmentId)
+                <tr>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => modelItem.ToList()[i].description)
+                        @Html.HiddenFor(modelItem => modelItem.ToList()[i].description)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => modelItem.ToList()[i].qtyRequired)
+                        @Html.HiddenFor(modelItem => modelItem.ToList()[i].qtyRequired)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => modelItem.ToList()[i].unitMeasure)
+                        @Html.HiddenFor(modelItem => modelItem.ToList()[i].unitMeasure)
+                    </td>
+                    <td align="center">
+                        @Html.EditorFor(modelItem => modelItem.ToList()[i].qtyActual, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(modelItem => modelItem.ToList()[i].qtyActual, "", new { @class = "text-danger" })
+                    </td>
+                    <td align="center">
+                        @Html.EditorFor(modelItem => modelItem.ToList()[i].qtyDamaged, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(modelItem => modelItem.ToList()[i].qtyDamaged, "", new { @class = "text-danger" })
+                    </td>
+                    <td align="center">
+                        @Html.EditorFor(modelItem => modelItem.ToList()[i].qtyMissing, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(modelItem => modelItem.ToList()[i].qtyMissing, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+    if (Model != null && Model.Count() > 0)
+    {
+        <input type="submit" id="btn_submit" value="Submit" class="btn btn-info pull-right" />
+    }
+}
+
+<script type="text/javascript">
+    function SelectedIndexChanged() {
+        var e = document.getElementById("depIdList");
+        var selectedCategory = e.options[e.selectedIndex].value;
+
+        window.location.href = '@Url.Action("Index", "Disbursement")' + '?depId=' + selectedCategory;
+    }
+</script>

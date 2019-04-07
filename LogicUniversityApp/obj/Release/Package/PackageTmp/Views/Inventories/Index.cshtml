@@ -1,0 +1,79 @@
+﻿@model IEnumerable<LogicUniversityApp.ViewModel.InventoryViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "Inventories", FormMethod.Get))
+{
+    <p>
+        Category: @Html.DropDownList("category", "ALL")
+        Title: @Html.TextBox("SearchString")
+
+        <input type="submit" value="Search" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.itemNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.reorderLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reorderQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.unitMeasure)
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.itemNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.reorderLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.reorderQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.unitMeasure)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.itemNo }) |
+                @Html.ActionLink("Details", "Details", new { id = item.itemNo }) 
+                @*|
+                @Html.ActionLink("Delete", "Delete", new { id = item.itemNo })*@
+            </td>
+        </tr>
+    }
+
+</table>

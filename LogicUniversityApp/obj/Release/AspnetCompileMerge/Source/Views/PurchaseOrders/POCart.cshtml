@@ -1,0 +1,128 @@
+﻿@model List<LogicUniversityApp.ViewModel.PurchaseOrderViewModel>
+@{
+    ViewBag.Title = "POCart";
+}
+
+<script src="~/Scripts/jquery-ui.min.js"></script>
+
+@section scripts{
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+    <script>
+        $(function () {
+            $("#date").datepicker({
+                dateFormat: "yy/mm/dd",
+                showButtonPanel: true,
+                changeMonth: true,
+                changeYear: true,
+                gotoCurrent: true,
+                minDate: 0
+            });
+        });
+    </script>
+}
+
+
+<h2>Purchase Order Cart</h2>
+@using (Html.BeginForm("POCart", "PurchaseOrders", FormMethod.Post))
+{
+    if (Model != null && Model.Count() > 0)
+    {
+        if (ViewBag.poId == null)
+        {
+            <h2>New PO</h2>
+            <p><b>Order Date:</b> @Html.TextBoxFor(model => Model[0].orderDate, new { @class = "form-control", @Value = @DateTime.Now.ToString("yyyy/MM/dd"), @readonly = "readonly" })</p>
+            <p><b>Delivery Date:</b> @Html.EditorFor(model => Model[0].deliveryDate, new { htmlAttributes = new { @id = "date", @class = "form-control", @Value = DateTime.Now.ToString("yyyy/MM/dd") } })</p>
+        }
+        else
+        {
+            <h2>PO @ViewBag.poId</h2>
+            <p><b>Order Date:</b> @Html.TextBoxFor(model => Model[0].orderDate, new { @class = "form-control", @Value = Model[0].orderDate.ToString("yyyy/MM/dd"), @readonly = "readonly" })</p>
+            <p><b>Delivery Date:</b>@Html.EditorFor(model => Model[0].deliveryDate, new { htmlAttributes = new { @id = "date", @class = "form-control" } })</p>
+
+            if (Model[0].status.ToUpper().Equals("OPEN"))
+            {
+                <p>
+                    <b>Status:</b>
+                    @Html.RadioButtonFor(model => Model[0].status, "Open") Open
+                    @Html.RadioButtonFor(model => Model[0].status, "Sent") Sent
+                </p>
+            }
+
+            if (Model[0].status.ToUpper().Equals("SENT"))
+            {
+                <p>
+                    <b>Status:</b>
+                    @Html.RadioButtonFor(model => Model[0].status, "Sent") Sent
+                    @Html.RadioButtonFor(model => Model[0].status, "Closed") Closed
+                </p>
+            }
+        }
+    }
+
+    <p>
+        @Html.ActionLink("Add Item", "Create", new { poId = ViewBag.poId as object })
+    </p>
+
+    @Html.Hidden("poId", @ViewBag.poId as object)
+
+    if (Model != null && Model.Count() > 0)
+    {
+        <table class="table table-striped table-hover">
+            <tr>
+                <th class="text-center text-info">
+                    @Html.DisplayNameFor(x => x[0].description)
+                </th>
+                <th class="text-center text-info">
+                    @Html.DisplayNameFor(x => x[0].category)
+                </th>
+                <th class="text-center text-info">
+                    @Html.DisplayNameFor(x => x[0].supplierName)
+                </th>
+                <th class="text-center text-info">
+                    @Html.DisplayNameFor(x => x[0].tenderPrice)
+                </th>
+                <th class="text-center text-info">
+                    @Html.DisplayNameFor(x => x[0].quantity)
+                </th>
+                <th></th>
+            </tr>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                @Html.HiddenFor(x => x[i].supplierID)
+                @Html.HiddenFor(x => x[i].itemNo)
+                @Html.HiddenFor(x => x[i].poId)
+                <tr>
+                    <td align="center">
+                        @Html.HiddenFor(x => x[i].description)
+                        @Html.DisplayFor(x => x[i].description)
+                    </td>
+                    <td align="center">
+                        @Html.HiddenFor(x => x[i].category)
+                        @Html.DisplayFor(x => x[i].category)
+                    </td>
+                    <td align="center">
+                        @Html.HiddenFor(x => x[i].supplierName)
+                        @Html.DisplayFor(x => x[i].supplierName)
+                    </td>
+                    <td align="center">
+                        @Html.HiddenFor(x => x[i].tenderPrice)
+                        @Html.DisplayFor(x => x[i].tenderPrice)
+                    </td>
+                    <td align="center">
+                        @Html.EditorFor(x => x[i].quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(x => x[i].quantity, "", new { @class = "text-danger" })
+                    </td>
+                    <td align="center">
+                        <button class="btn btn-default" name="btn_itemNo" value="@Model[i].itemNo/@Model[i].supplierID">
+                            <span class="glyphicon glyphicon-minus-sign"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <input type="submit" class="btn btn-default" value="Submit" />
+    }
+}

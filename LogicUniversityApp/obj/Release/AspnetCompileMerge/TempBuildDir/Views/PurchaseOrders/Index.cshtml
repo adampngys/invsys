@@ -1,0 +1,72 @@
+﻿@model IEnumerable<LogicUniversityApp.ViewModel.PurchaseOrderViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Purchase Order List</h2>
+
+<p>
+    @Html.ActionLink("Create new PO", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.poId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.supplierName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.orderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.deliveryDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.poId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.supplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.orderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.deliveryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { poId = item.poId }) |
+
+                @if (item != null && item.status != null)
+                {
+                    if (item.status.ToUpper().Equals("OPEN"))
+                    {
+                        @Html.ActionLink("Edit PO", "POCart", new { poId = item.poId });<text> | </text>
+                        @Html.ActionLink("Delete PO", "Delete", new { id = item.poId });
+                    }
+                    else if (item.status.ToUpper().Equals("SENT"))
+                    {
+                        @Html.ActionLink("Edit PO", "POCart", new { poId = item.poId })
+                    }
+                    else if (item.status.ToUpper().Equals("CLOSED"))
+                    {
+                        @Html.ActionLink("View Report", "ExportPurchaseOrder", new { poId = item.poId })
+                    }
+                }
+            </td>
+        </tr>
+    }
+</table>

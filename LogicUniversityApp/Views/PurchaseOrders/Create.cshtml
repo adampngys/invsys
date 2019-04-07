@@ -1,0 +1,126 @@
+﻿@model IEnumerable<LogicUniversityApp.ViewModel.PurchaseOrderViewModel>
+
+@{
+    ViewBag.Title = "Create";
+    var list = Session["pocartItems"] as List<LogicUniversityApp.ViewModel.PurchaseOrderViewModel>;
+    int count1 = list == null ? 0 : list.Count;
+    int count2 = ViewBag.DetailItemCount == null ? 0 : (int)ViewBag.DetailItemCount;
+    int supplierCounter = 0;
+}
+
+<h3>Create / Edit Purchase Order</h3>
+
+@if (@ViewBag.poId != null)
+{
+    <p>Add Item(s) to PO @ViewBag.poId</p>
+}
+else
+{
+    <p>Add Item(s) to new PO</p>
+}
+
+@using (Html.BeginForm("Create", "PurchaseOrders", FormMethod.Post))
+{
+    @Html.DropDownList("categoryList",
+        null,
+        "Select All Category",
+        new { Class = "form-control", onchange = "SelectedIndexChanged()" })
+    <br />
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.category)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.balance)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.reorderLevel)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.supplierName)
+            </th>
+            <th class="text-center text-info">
+                @Html.DisplayNameFor(model => model.tenderPrice)
+            </th>
+            <th class="text-center text-info">
+                <button class="btn btn-info">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    @if (ViewBag.poId == null)
+                    {
+                        <span class="items">Cart (@count1)</span>
+                    }
+                    else if (count2 != 0)
+                    {
+                        <span class="items">Cart (@count2)</span>
+                    }
+                    else
+                    {
+                        <span class="items">Cart</span>
+                    }
+                </button>
+            </th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            @Html.Hidden("poId", @ViewBag.poId as object)
+            var balance = item.balance == null ? 0 : (int)item.balance;
+            var warning = balance <= item.reorderLevel ? "danger" : null;
+
+            supplierCounter++;
+            <tr class="@warning">
+                <td align="center">
+                    @if (ViewBag.poId != null || supplierCounter % 3 == 1)
+                    {
+                        @Html.DisplayFor(modelItem => item.description)
+                    }
+                </td>
+                <td align="center">
+                    @if (ViewBag.poId != null || supplierCounter % 3 == 1)
+                    {
+                        @Html.DisplayFor(modelItem => item.category)
+                    }
+                </td>
+                <td align="center">
+                    @if (ViewBag.poId != null || supplierCounter % 3 == 1)
+                    {
+                        @Html.DisplayFor(modelItem => item.balance)
+                    }
+                </td>
+                <td align="center">
+                    @if (ViewBag.poId != null || supplierCounter % 3 == 1)
+                    {
+                        @Html.DisplayFor(modelItem => item.reorderLevel)
+                    }
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.supplierName)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.tenderPrice)
+                </td>
+                <td align="center">
+                    <a id="btn_add" class="btn btn-default" href="@Url.Action("Create", "PurchaseOrders", new { itemNo = item.itemNo, supplierId = item.supplierID, poId = ViewBag.poId, category = ViewBag.category })">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <script type="text/javascript">
+        function SelectedIndexChanged() {
+            var e = document.getElementById("categoryList");
+            var selectedCategory = e.options[e.selectedIndex].value;
+
+            window.location.href = '@Url.Action("Create", "PurchaseOrders")' + '?category=' + selectedCategory + '&poId=@ViewBag.poId';
+        }
+    </script>
+}

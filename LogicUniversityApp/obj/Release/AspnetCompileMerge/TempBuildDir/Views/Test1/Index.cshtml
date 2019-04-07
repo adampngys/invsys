@@ -1,0 +1,60 @@
+﻿@model IEnumerable<LogicUniversityApp.Models.StockCard>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+
+    <div><a href="@Url.Action("ExportStockCards")"> Report PDF </a></div>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Inventory.category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateModified)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inventory.category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.remark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateModified)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.index }) |
+                @Html.ActionLink("Details", "Details", new { id = item.index }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.index })
+            </td>
+        </tr>
+    }
+
+</table>

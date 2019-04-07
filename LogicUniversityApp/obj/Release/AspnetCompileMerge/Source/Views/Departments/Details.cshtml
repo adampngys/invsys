@@ -1,0 +1,80 @@
+﻿@model LogicUniversityApp.Models.Department
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Department</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.LabelFor(model => model.departmentId, "Department Id")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.departmentId)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.departmentName, "Department Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.departmentName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.CollectionPoint.collectionPointDescription, "Collection Point")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CollectionPoint.collectionPointDescription)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Staff1, "Department Head")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Staff1.staffName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Staff2, "Department Representative")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Staff2.staffName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Staff, "Department Contact Person")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Staff.staffName)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.departmentPhone, "Phone Number")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.departmentPhone)
+        </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.departmentFax, "Fax")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.departmentFax)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit Department Contact Details", "Edit", new { id = Model.departmentId })
+</p>

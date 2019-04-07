@@ -1,0 +1,22 @@
+﻿@using LogicUniversityApp.Models;
+
+@{
+    ViewBag.Title = "ShowUser";
+}
+
+<h2>ShowUser</h2>
+
+<table class="table table-striped table-hover ">
+    <tr>
+        <th>USER NAME</th>
+        <th>ACTION</th>
+    </tr>
+    @foreach (ApplicationUser user in ViewBag.users)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td><a href="~/Account/Assign?id=@user.Id">select</a></td>
+        </tr>
+    }
+</table>
+

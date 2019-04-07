@@ -1,0 +1,164 @@
+﻿@model IEnumerable<LogicUniversityApp.ViewModel.RequestViewModel>
+
+@{
+    ViewBag.Title = "ApproveRejectRequests";
+}
+
+<script src="~/Scripts/jquery-ui.min.js"></script>
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript">
+        $('#ApproveDialog').dialog({
+            autoOpen: false,
+            modal: true
+        });
+
+        function OpenApproveDialog() {
+
+            var approveSelected = $('#approveSelected').val();
+            var remarks = $('#remarks').val();
+            $('#approveSelected').val(approveSelected);
+            $('#remarks').val(remarks);
+            $('#ApproveDialog').dialog('open');
+        }
+
+        function ApproveSave() {
+
+        $.ajax({
+            url: '@Url.Action("ApproveReject", "Request")',
+            type: 'POST',
+            data: {
+               remarks: $('#remarks').val(),
+               approveSelected: $('#approveSelected').val()
+            },
+            success: function (msg) {
+                location.reload()
+            },
+            error: function (msg) {
+                alert("Error Occured!")
+            }
+            });
+        }
+
+        $('#RejectDialog').dialog({
+            autoOpen: false,
+            modal: true
+        });
+
+        function OpenRejectDialog() {
+
+            var selected = $('#rejectSelected').val();
+            var remarks = $('#remarks').val();
+            $('#rejectSelected').val(selected);
+            $('#remarks').val(remarks);
+            $('#RejectDialog').dialog('open');
+        }
+
+        function RejectSave() {
+
+        $.ajax({
+            url: '@Url.Action("ApproveReject", "Request")',
+            type: 'POST',
+            data: {
+                remarks: $('#remarks').val(),
+                rejectSelected: $('#rejectSelected').val()
+            },
+            success: function (msg) {
+                location.reload()
+            },
+            error: function (msg) {
+                alert("Error Occured!")
+            }
+            });
+
+        }
+    </script>
+}
+
+<div id="ApproveDialog">
+    <p>Input your remarks:</p>
+    <input type="text" id="remarks" style="width:225px;height:100px" /><br />
+    <button name="approveRequest" class="btn btn-success" onclick="ApproveSave()">Approve</button>
+</div>
+
+<div id="RejectDialog">
+    <p>Input your remarks:</p>
+    <input type="text" id="remarks" style="width:225px;height:100px" /><br />
+    <button name="rejectRequest" class="btn btn-danger" onclick="RejectSave()">Reject</button>
+</div>
+
+
+<h2>Approve / Reject Requests</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(m => m.requestId)
+        </th>
+        <th>
+            Items
+        </th>
+        <th>
+            Total Price
+        </th>
+        <th>
+            Requester
+        </th>
+        <th>
+            Date Requested
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.status_request)
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.requestId)
+            </td>
+            <td>
+                @{
+                    string[] stringList = item.description.Split('$');
+                }
+                @foreach (string s in stringList)
+                {
+                    @Html.Label(s)
+                    <br />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.stdPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.staffName)
+            </td>
+            <td>
+                @Html.LabelFor(modelItem => item.approvedDate, String.Format("{0:d}", item.approvedDate))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status_request)
+            </td>
+            <td>
+                @Html.ActionLink("View Details", "Detail", "Request", new { requestId = item.requestId }, null)
+            </td>
+            @if (item.status_request == "pending")
+            {
+                <td>
+                    <button onclick="OpenApproveDialog()" class="btn btn-success" id="approveSelected" value="@item.requestId">
+                        Approve
+                    </button>
+                    <button onclick="OpenRejectDialog()" class="btn btn-danger" id="rejectSelected" value="@item.requestId">
+                        Reject
+                    </button>
+                </td>
+            }
+        </tr>
+    }
+</table>
+@Html.ActionLink("View History", "ApproveReject", "Request", new { ShowHistory = true }, null)
+<text> | </text>
+@Html.ActionLink("Hide History", "ApproveReject", "Request", new { ShowHistory = false }, null)

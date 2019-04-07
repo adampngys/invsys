@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/jquery-ui.min.css")
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/jquery-ui.min.js")
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Logic University", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("SC") || User.IsInRole("SS") || User.IsInRole("SM"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Analysis <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("Purchase Order Report", "PurchaseReport", "Report")</li>
+                                    <li>@Html.ActionLink("Chargeback Report", "ChargeBackReport", "Report")</li>
+                                    <li>@Html.ActionLink("Trend Analysis Report", "StoreTrendAnalysis", "Report")</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Catalogue <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    @*<li>@Html.ActionLink("Maintain Category", "XXX", "XXX")</li>*@
+                                    <li>@Html.ActionLink("Maintain Item", "Index", "Inventories")</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Stationery Request <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("Disbursement List", "Index", "Disbursement")</li>
+                                    <li>@Html.ActionLink("Retrieval List", "Index", "Retrieval")</li>
+                                    @if (User.IsInRole("SM"))
+                                    {
+                                        <li>
+                                            @Html.ActionLink("Approve Or Reject Requests", "ApproveReject", "Request")
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            @Html.ActionLink("Raise Request", "Store", "Request")
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("Request List", "List", "Request")
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Stock <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("Stock Card", "ViewStockCard", "StockCard")</li>
+                                    <li>@Html.ActionLink("Adjustment Voucher", "ViewTotal", "AdjustmentVouchers")</li>
+                                    <li>@Html.ActionLink("Purchase Order", "Index", "PurchaseOrders")</li>
+                                </ul>
+                            </li>
+
+
+
+                            if (User.IsInRole("SS") || User.IsInRole("SM"))
+                            {
+                                <li>
+                                    @Html.ActionLink("Supplier Data", "Index", "Suppliers")
+                                </li>
+                            }
+                        }
+
+                        if (User.IsInRole("Staff") || User.IsInRole("DH") || User.IsInRole("DR") || User.IsInRole("Temp DH"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Catalogue<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        @Html.ActionLink("Items", "Store", "Request")
+                                    </li>
+                                    @if (!(User.IsInRole("DH") || User.IsInRole("Temp DH")))
+                                    {
+                                        <li>
+                                            @Html.ActionLink("Request List", "List", "Request")
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                            if (User.IsInRole("DH") || User.IsInRole("DR") || User.IsInRole("Temp DH"))
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            @Html.ActionLink("Change Collection Point", "ChangeCollectionPoint", "CollectionPoint")
+                                        </li>
+                                        @if (User.IsInRole("DH") || User.IsInRole("Temp DH"))
+                                        {
+                                            <li>
+                                                @Html.ActionLink("Approve Or Reject Requests", "ApproveReject", "Request")
+                                            </li>
+                                        }
+                                        @if (User.IsInRole("DH"))
+                                        {
+                                            <li>
+                                                @Html.ActionLink("Role Delegation", "RoleDelegation", "RoleDelegation")
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        }
+
+                        if (User.IsInRole("DH"))
+                        {
+                            <li>
+                                @Html.ActionLink("Trend Analysis Report", "TrendAnalysisReport", "Report")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Department Details", "Details", "Departments")
+                            </li>
+                        }
+
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("manage user role", "ShowUser", "Account")</li>
+                                </ul>
+                            </li>
+                        }
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Logic University</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

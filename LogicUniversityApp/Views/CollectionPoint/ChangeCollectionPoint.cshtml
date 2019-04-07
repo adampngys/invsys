@@ -1,0 +1,114 @@
+﻿@model LogicUniversityApp.ViewModel.DepartmentViewModel
+
+@{
+    ViewBag.Title = "ChangeCollectionPoint";
+    List<LogicUniversityApp.ViewModel.CollectionPointViewModel> myPoints = ViewBag.CollectionPoint as List<LogicUniversityApp.ViewModel.CollectionPointViewModel>;
+}
+
+@using (Html.BeginForm("ChangeCollectionPoint", "CollectionPoint", FormMethod.Post))
+{
+    if (User.IsInRole("DH") || User.IsInRole("Temp DH"))
+    {
+        <h2>Change Department Representative and Collection Point</h2>
+        <table class="table" border="0">
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.departmentName) department's current representative:
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.DRName)
+                    @Html.Hidden("oldDR", Model.staffIdDR)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    New Department Representative:
+                </td>
+                <td>
+                    @Html.DropDownList("StaffList", null, htmlAttributes: new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.HiddenFor(model => model.departmentId)
+                    @Html.DisplayFor(model => model.departmentName) department's current check point:
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.collectionPointDescription)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    New collection point:
+                </td>
+                <td>
+                    @if (myPoints != null)
+                    {
+                        foreach (var point in myPoints)
+                        {
+                            if (point.collectionPointId == Model.collectionPointId)
+                            {
+                                @Html.RadioButton("chosenPoint", point.collectionPointId, true)
+                                @Html.Label(point.collectionPointDescription)
+                            }
+                            else
+                            {
+                                @Html.RadioButton("chosenPoint", point.collectionPointId)
+                                @Html.Label(point.collectionPointDescription)
+                            }
+                            <br />
+                        }
+                    }
+                </td>
+            </tr>
+        </table>
+        <input type="Submit" class="btn btn-default" value="Update" />
+    }
+    else if (User.IsInRole("DR"))
+    {
+        <h2>Change Collection Point</h2>
+        <table class="table" border="0">
+            <tr>
+                <td>
+                    @Html.HiddenFor(model => model.departmentId)
+                    @Html.DisplayFor(model => model.departmentName) department current check point:
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.collectionPointDescription)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    New collection point:
+                </td>
+                <td>
+                    @if (myPoints != null)
+                    {
+                        foreach (var point in myPoints)
+                        {
+                            if (point.collectionPointId == Model.collectionPointId)
+                            {
+                                @Html.RadioButton("chosenPoint", point.collectionPointId, true)
+                                @Html.Label(point.collectionPointDescription)
+                            }
+                            else
+                            {
+                                @Html.RadioButton("chosenPoint", point.collectionPointId)
+                                @Html.Label(point.collectionPointDescription)
+                            }
+                            <br />
+                        }
+                    }
+                    </td>
+            </tr>
+        </table>
+        <input type="Submit" class="btn btn-default" value="Update" />
+    }
+    else
+    {
+        <h1 class="text-danger">Error.</h1>
+        <h2 class="text-danger">You are not authorized to see this page!</h2>
+    }
+
+}
+

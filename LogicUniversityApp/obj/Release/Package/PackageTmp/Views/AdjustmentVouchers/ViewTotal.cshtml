@@ -1,0 +1,77 @@
+﻿@model IEnumerable<LogicUniversityApp.ViewModel.AdjustmentVoucherViewModel>
+@{
+    ViewBag.Title = "ViewTotal";
+    bool alert = false;
+}
+
+<h3>ADJUSTMENT VOUCHER</h3>
+
+@if (User.IsInRole("SC"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+
+@using (Html.BeginForm("ViewTotal", "AdjustmentVouchers", FormMethod.Get))
+{
+    @Html.DropDownList("year", null, new { Class = "form-control" })
+
+    @Html.DropDownList("month", null, new { Class = "form-control" })
+
+    <br />
+    <input type="submit" value="Search" class="btn btn-primary" />
+    <br />
+}
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.totalamount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        string warning = null;
+
+        if (item.totalamount <= -250)
+        {
+            alert = true;
+            warning = "danger";
+
+        }
+
+        <tr class="@warning">
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.totalamount)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "ViewDetail", new { itemNo = item.itemNo, year = item.year, month = item.month })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+<p>
+    @if (ViewBag.showReport != null)
+    {
+        if ((User.IsInRole("SS") && (!alert)) || User.IsInRole("SM"))
+        {
+            @Html.ActionLink("Create Adjustment Voucher PDF", "ExportAdjustmentVoucher", new { year = ViewBag.tempYear, month = ViewBag.tempMonth })
+        }
+        if (User.IsInRole("SS") && alert)
+        {
+            @Html.ActionLink("Notify Manager", "NotifyManager", new { year = ViewBag.tempYear, month = ViewBag.tempMonth })
+        }
+    }
+</p>

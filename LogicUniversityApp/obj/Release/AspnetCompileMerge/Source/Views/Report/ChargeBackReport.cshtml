@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "ChargeBackReport";
+}
+
+<h2>Charge Back Report</h2>
+
+<iframe width="1200" height="800" src="https://app.powerbi.com/view?r=eyJrIjoiMmZjNjU2ZGItNjMzNS00NmQzLWIxZmYtNTY0ZTM2NTQ5MmZjIiwidCI6IjViYTVlZjVlLTMxMDktNGU3Ny04NWJkLWNmZWIwZDM0N2U4MiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+
+@using (Html.BeginForm("ChargeBackReport", "Report", FormMethod.Post))
+{
+    <button type="submit" value="Download" name="submit">Download</button>
+    <p style="color:red; font-size:small">*You need to have a power BI account to download the file</p>
+}

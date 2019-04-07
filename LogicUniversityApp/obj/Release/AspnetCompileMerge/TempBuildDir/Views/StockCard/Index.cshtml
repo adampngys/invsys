@@ -1,0 +1,56 @@
+﻿@model IEnumerable<LogicUniversityApp.ViewModel.StockCardViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>ITEM MOVEMENT HISTORY</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.itemNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateModified)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.itemNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.remark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateModified)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+<td>
+    @Html.ActionLink("Back", "ViewStockCard", "StockCard", null, null)
+
+</td>

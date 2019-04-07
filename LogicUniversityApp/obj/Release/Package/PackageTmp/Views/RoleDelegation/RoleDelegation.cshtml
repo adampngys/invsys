@@ -1,0 +1,156 @@
+﻿@model List<LogicUniversityApp.Models.Staff>
+
+@{
+    ViewBag.Title = "RoleDelegation";
+
+    LogicUniversityApp.Models.Staff delegated = ViewBag.DelegatedStaff;
+}
+
+<script src="~/Scripts/jquery-ui.min.js"></script>
+
+@section scripts{
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+    <script>
+        $(function () {
+            $("#date1").datepicker({
+                dateFormat: "yy/mm/dd",
+                showButtonPanel: true,
+                changeMonth: true,
+                changeYear: true,
+                gotoCurrent: true,
+                minDate: 0,
+                onSelect: function (date) {
+                    var date2 = $('#date1').datepicker('getDate');
+                    date2.setDate(date2.getDate());
+                    $('#date2').datepicker('setDate', date2);
+                    //sets minDate to dt1 date + 1
+                    $('#date2').datepicker('option', 'minDate', date2);
+                }
+            });
+            $('#date2').datepicker({
+                dateFormat: "yy/mm/dd",
+                showButtonPanel: true,
+                changeMonth: true,
+                changeYear: true,
+                gotoCurrent: true,
+                onClose: function () {
+                    var dt1 = $('#date1').datepicker('getDate');
+                    var dt2 = $('#date2').datepicker('getDate');
+                    //check to prevent a user from entering a date below date of dt1
+                    if (dt2 <= dt1) {
+                        var minDate = $('#date2').datepicker('option', 'minDate');
+                        $('#date2').datepicker('setDate', minDate);
+                    }
+                }
+            });
+        });
+    </script>
+
+}
+
+<h2>Role Delegation</h2>
+
+@using (Html.BeginForm("RoleDelegation", "RoleDelegation", FormMethod.Post))
+{
+    <table class="table">
+        <tr>
+            <td>
+                Name
+            </td>
+            <td>
+                Delegated
+            </td>
+            <td>
+                Start Date
+            </td>
+            <td>
+                End Date
+            </td>
+            <td></td>
+        </tr>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            @Html.HiddenFor(Model => Model[i].staffId)
+            <tr>
+                <td>
+                    @Html.HiddenFor(Model => Model[i].staffName)
+                    @Html.DisplayFor(Model => Model[i].staffName)
+                </td>
+                <td>
+                    @Html.HiddenFor(Model => Model[i].delegatedStatus)
+                    @Html.DisplayFor(Model => Model[i].delegatedStatus)
+                </td>
+                <td>
+                    @if (Model[i].delegatedStartDate != null)
+                    {
+                        @Html.HiddenFor(Model => Model[i].delegatedStartDate)
+                        @Html.LabelFor(Model => Model[i].delegatedStartDate, String.Format("{0:d}", Model[i].delegatedStartDate))
+                    }
+                    else
+                    {
+                        @Html.Label("-")
+                    }
+                </td>
+                <td>
+                    @if (Model[i].delegatedEndDate != null)
+                    {
+                        @Html.HiddenFor(Model => Model[i].delegatedEndDate)
+                        @Html.LabelFor(Model => Model[i].delegatedEndDate, String.Format("{0:d}", Model[i].delegatedEndDate))
+                    }
+                    else
+                    {
+                        @Html.Label("-")
+                    }
+                </td>
+                <td>
+                    @if (delegated == null)
+                    {
+                        <button name="staffSelected" value="@Model[i].staffId"> Select </button>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+    if (delegated == null)
+    {
+        @Html.Label("No staff had been given authority")
+    }
+    else
+    {
+        <table class="table">
+            <tr>
+                <td>
+                    @Html.Hidden("staffChosen", delegated.staffId)
+                    @Html.Label("Delegation representative selected")
+                </td>
+                <td>
+                    @Html.Label("delegatedName", String.Format("{0:d}", delegated.staffName))
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    From:
+                </td>
+                <td>
+
+                    <input name="startDate" id="date1" value=@delegated.delegatedStartDate readonly />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    To:
+                </td>
+                <td>
+                    <input name="endDate" id="date2" value=@delegated.delegatedEndDate readonly />
+                </td>
+            </tr>
+        </table>
+
+        <button name="removeAuthority" value="Remove">Remove</button>
+
+        <button name="submit" value="Submit">Submit</button>
+    }
+}

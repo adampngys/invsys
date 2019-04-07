@@ -1,0 +1,101 @@
+﻿@model LogicUniversityApp.ViewModel.RetrievalViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <br/>
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th class="text-center text-info">@Html.DisplayNameFor(model => model.DueDate)</th>
+            <th class="text-center text-info">@Html.DisplayNameFor(model => model.itemNo)</th>
+            <th class="text-center text-info">@Html.DisplayNameFor(model => model.description)</th>
+            <th class="text-center text-info">@Html.DisplayNameFor(model => model.categoryId)</th>
+            <th class="text-center text-info">@Html.DisplayNameFor(model => model.location)</th>
+            <th class="text-center text-info">@Html.DisplayNameFor(model => model.balance)</th>
+            <th class="text-center text-info">@Html.DisplayNameFor(model => model.unitMeasure)</th>
+        </tr>
+        <tr>
+            <td align="center">
+                @Html.HiddenFor(model => model.DueDate)
+                @Html.DisplayFor(model => model.DueDate)
+            </td>
+            <td align="center">
+                @Html.HiddenFor(model => model.itemNo)
+                @Html.DisplayFor(model => model.itemNo)
+            </td>
+            <td align="center">
+                @Html.HiddenFor(model => model.description)
+                @Html.DisplayFor(model => model.description)
+            </td>
+            <td align="center">
+                @Html.HiddenFor(model => model.categoryId)
+                @Html.DisplayFor(model => model.categoryId)
+            </td>
+            <td align="center">
+                @Html.HiddenFor(model => model.location)
+                @Html.DisplayFor(model => model.location)
+            </td>
+            <td align="center">
+                @Html.HiddenFor(model => model.balance)
+                @Html.DisplayFor(model => model.balance)
+            </td>
+            <td align="center">
+                @Html.HiddenFor(model => model.unitMeasure)
+                @Html.DisplayFor(model => model.unitMeasure)
+            </td>
+        </tr>
+    </table>
+
+    <div class="form-horizontal">        
+        <div class="form-group">
+            @Html.LabelFor(model => model.quantityTotalNeed, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.quantityTotalNeed)
+                @Html.DisplayFor(model => model.quantityTotalNeed)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.quantityRetrieval, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="control-label col-md-2">
+                @Html.EditorFor(model => model.quantityRetrieval, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.quantityRetrieval, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.quantityInstoreDamaged, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="control-label col-md-2">
+                @Html.EditorFor(model => model.quantityInstoreDamaged, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.quantityInstoreDamaged, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.quantityInstoreMissing, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="control-label col-md-2">
+                @Html.EditorFor(model => model.quantityInstoreMissing, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.quantityInstoreMissing, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

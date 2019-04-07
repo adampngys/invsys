@@ -1,0 +1,67 @@
+﻿@model IEnumerable<LogicUniversityApp.ViewModel.PurchaseOrderViewModel>
+@{
+    ViewBag.Title = "Details";
+}
+<h2>PO @ViewBag.poId Purchase Order Details</h2>
+<table class="table table-striped table-hover">
+    <tr>
+        <th class="text-center text-info">
+            @Html.DisplayNameFor(model => model.supplierID)
+        </th>
+        <th class="text-center text-info">
+            @Html.DisplayNameFor(model => model.category)
+        </th>
+        <th class="text-center text-info">
+            @Html.DisplayNameFor(model => model.itemNo)
+        </th>
+        <th class="text-center text-info">
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th class="text-center text-info">
+            @Html.DisplayNameFor(model => model.quantity)
+        </th>
+        <th class="text-center text-info">
+            @Html.DisplayNameFor(model => model.tenderPrice)
+        </th>
+        <th class="text-center text-info">
+            @Html.DisplayNameFor(model => model.orderDate)
+        </th>
+        <th class="text-center text-info">
+            @Html.DisplayNameFor(model => model.deliveryDate)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.supplierID)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.category)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.itemNo)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.quantity)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.tenderPrice)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.orderDate)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.deliveryDate)
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="form-actions no-color">
+    @Html.ActionLink("Back to List", "Index", "PurchaseOrders")
+</div>

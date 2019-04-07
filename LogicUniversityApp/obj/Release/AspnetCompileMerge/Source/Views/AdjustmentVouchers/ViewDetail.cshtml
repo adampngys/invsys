@@ -1,0 +1,73 @@
+﻿@model IEnumerable<LogicUniversityApp.ViewModel.AdjustmentVoucherViewModel>
+
+@{
+    ViewBag.Title = "ViewDetail";
+}
+
+<h2>ViewDetail</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.voucherId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.itemNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.unitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.totalamount)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.voucherId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.remark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.itemNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.unitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.totalamount)
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    @Html.ActionLink("Back to List", "ViewTotal", new { month = Model.ToList()[0].month, year = Model.ToList()[0].year })
+}

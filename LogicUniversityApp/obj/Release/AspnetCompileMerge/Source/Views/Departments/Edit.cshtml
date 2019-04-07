@@ -1,0 +1,58 @@
+﻿@model LogicUniversityApp.Models.Department
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Department Contact Details</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Department</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.departmentId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.departmentName, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.departmentName, String.Format("{0}", Model.departmentName))
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.staffIdContact, "Department Contact Person", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("staffIdContact", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.staffIdContact, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.departmentPhone, "Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.departmentPhone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.departmentPhone, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.departmentPhone)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.departmentFax, "Fax", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.departmentFax, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.departmentFax, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.departmentFax)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
